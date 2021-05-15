@@ -23,6 +23,16 @@ const StoreProvider: React.FC = ({ children }) => {
     username: '',
     hasLoaded: false,
   })
+  const [banner, setBanner] = useState<BannerState>({
+    data: [],
+    hasLoaded: false,
+  })
+  const [consumer, setConsumer] = useState<ConsumerState>({
+    hasLoaded: false,
+    id: 0,
+    pic: '',
+    user: 0,
+  })
 
   const authLogin = async (f: LoginFields) => {
     try {
@@ -75,9 +85,22 @@ const StoreProvider: React.FC = ({ children }) => {
   }
 
   const userFetch = async () => {
-    const res = await axios.get<{ username: string; email: string }>(
-      '/rest-auth/user/'
-    )
+    const res = await axios.get<{
+      pk: number
+      username: string
+      email: string
+    }>(`${API_URL}/rest-auth/user/`)
+    setUser({ ...res.data, hasLoaded: true })
+  }
+
+  const bannerFetch = async () => {
+    const res = await axios.get<Banner[]>(`${API_URL}/api/site/banner/`)
+    setBanner({ data: res.data, hasLoaded: true })
+  }
+
+  const consumerFetch = async () => {
+    const res = await axios.get<Consumer>(`${API_URL}/api/social/consumer/`)
+    setConsumer({ ...res.data, hasLoaded: true })
   }
 
   return (
@@ -97,8 +120,17 @@ const StoreProvider: React.FC = ({ children }) => {
         },
         user: {
           state: user,
-          action: {},
-          error: {},
+          action: {
+            fetch: userFetch,
+          },
+        },
+        banner: {
+          state: banner,
+          action: { fetch: bannerFetch },
+        },
+        consumer: {
+          state: consumer,
+          action: { fetch: consumerFetch },
         },
       }}
     >
