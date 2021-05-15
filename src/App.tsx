@@ -1,24 +1,24 @@
-import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
-import Layout from "./layout";
-import Home from "./screens/Home";
-import Login from "./screens/Login";
-import Profile from "./screens/Profile";
-import Signup from "./screens/Signup";
+import React from 'react'
+import { BrowserRouter, Route } from 'react-router-dom'
+import Layout from './layout'
+import Home from './screens/Home'
+import Login from './screens/Login'
+import Profile from './screens/Profile'
+import Signup from './screens/Signup'
 
 function App() {
   return (
-    <div className="App">
+    <div className='App'>
       <BrowserRouter>
         <Layout>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/login/" component={Login} />
-          <Route exact path="/signup/" component={Signup} />
-          <Route exact path="/profile" component={Profile} />
+          <Route exact path='/' component={Home} />
+          <Route exact path='/login/' component={Login} />
+          <Route exact path='/signup/' component={Signup} />
+          <Route exact path='/profile' component={Profile} />
         </Layout>
       </BrowserRouter>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

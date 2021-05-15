@@ -140,5 +140,8 @@ const StoreProvider: React.FC = ({ children }) => {
 }
 
 const useAuth = () => useContext(storeContext)?.auth
+const useUser = () => useContext(storeContext)?.user
+const useBanners = () => useContext(storeContext)?.banner
+const useConsumer = () => useContext(storeContext)?.consumer
 
-export { StoreProvider }
+export { StoreProvider, useAuth, useBanners, useConsumer, useUser }
