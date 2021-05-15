@@ -2,12 +2,12 @@
 
 interface StoreItemWithError<S, A, E> {
   state: S
-  action: A
+  actions: A
   error: E
 }
 interface StoreItem<S, A> {
   state: S
-  action: A
+  actions: A
 }
 type withLoad<T> = T & {
   hasLoaded: boolean
@@ -21,6 +21,7 @@ interface LoginFields {
   password: string
 }
 interface SignUpFields {
+  username: string
   email: string
   password1: string
   password2: string
@@ -92,10 +93,27 @@ interface Influencer {
   review_count: number
   reviews: Reviews[]
 }
+type InfluencerState = withLoad<Influencer>
+interface InfluencerActions {
+  fetch: () => {}
+}
+
+interface InfluencerListState {
+  data: Influencer[]
+  hasLoaded: boolean
+}
+interface InfluencerListAction {
+  fetch: () => void
+}
 
 interface Store {
   auth: StoreItemWithError<AuthState, AuthActions, AuthError>
   user: StoreItem<UserState, UserActions>
   banner: StoreItem<BannerState, BannerActions>
   consumer: StoreItem<ConsumerState, ConsumerActions>
+  influencer: StoreItem<InfluencerState, InfluencerActions>
+  influencers: StoreItem<InfluencerListState, InfluencerListAction>
+}
+type FrontendFieldError<T> = {
+  [property in keyof T]: string
 }

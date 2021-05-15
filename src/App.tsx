@@ -3,7 +3,6 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import Layout from './layout'
 import Home from './screens/Home'
 import Login from './screens/Login'
-import Profile from './screens/Profile'
 import Signup from './screens/Signup'
 
 function App() {
@@ -14,7 +13,6 @@ function App() {
           <Route exact path='/' component={Home} />
           <Route exact path='/login/' component={Login} />
           <Route exact path='/signup/' component={Signup} />
-          <Route exact path='/profile' component={Profile} />
         </Layout>
       </BrowserRouter>
     </div>
