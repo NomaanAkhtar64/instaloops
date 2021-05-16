@@ -70,6 +70,15 @@ interface ConsumerActions {
   fetch: () => void
 }
 
+interface Niche {
+  id: number
+  name: string
+}
+type NicheState = withLoad<{ data: Niche[] }>
+interface NicheActions {
+  fetch: () => void
+}
+
 interface Reviews {
   id: number
   consumer: number | null
@@ -111,6 +120,7 @@ interface Store {
   user: StoreItem<UserState, UserActions>
   banner: StoreItem<BannerState, BannerActions>
   consumer: StoreItem<ConsumerState, ConsumerActions>
+  niche: StoreItem<NicheState, NicheActions>
   influencer: StoreItem<InfluencerState, InfluencerActions>
   influencers: StoreItem<InfluencerListState, InfluencerListAction>
 }

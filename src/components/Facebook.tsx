@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import FacebookLogin from "react-facebook-login";
 
 interface FacebookProps {}
@@ -7,7 +7,7 @@ const Facebook: React.FC<FacebookProps> = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState("");
   const [name, setName] = useState("");
-  const [picture, setPicture] = useState("");
+  // const [picture, setPicture] = useState("");
 
   let componentClick = () => {
     console.log("clicked");
@@ -20,7 +20,12 @@ const Facebook: React.FC<FacebookProps> = () => {
   };
   let fbContent;
   if (isLoggedIn) {
-    fbContent = null;
+    fbContent = (
+      <div className="facebook-data">
+        Welcome {name}
+        UserID: {userId}
+      </div>
+    );
   } else {
     fbContent = (
       <FacebookLogin

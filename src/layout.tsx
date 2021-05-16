@@ -34,10 +34,6 @@ const layout: React.FC<layoutProps> = ({ children }) => {
                 Home
               </Link>
 
-              <Link to="/profile/" className="navbar-item">
-                Profile
-              </Link>
-
               {/* <div className="navbar-item has-dropdown is-hoverable">
                 <Link className="navbar-link"> More </Link>
 
