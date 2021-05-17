@@ -2,10 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import "./layout.scss";
+import { useAuth } from "./store";
 
-interface layoutProps {}
+interface LayoutProps {}
 
-const layout: React.FC<layoutProps> = ({ children }) => {
+const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const auth = useAuth();
+
   return (
     <>
       <div className="main-body">
@@ -49,14 +52,26 @@ const layout: React.FC<layoutProps> = ({ children }) => {
 
             <div className="navbar-end">
               <div className="navbar-item">
-                <div className="buttons">
-                  <Link to="/signup/" className="button is-info">
-                    <strong>Sign up</strong>
-                  </Link>
-                  <Link to="/login/" className="button is-light">
-                    Log in
-                  </Link>
-                </div>
+                {auth?.state.isAuthenticated ? (
+                  <div className="buttons">
+                    <button
+                      type="button"
+                      className="button is-danger"
+                      onClick={() => auth.actions.logout()}
+                    >
+                      Log out
+                    </button>
+                  </div>
+                ) : (
+                  <div className="buttons">
+                    <Link to="/signup/" className="button is-info">
+                      <strong>Sign up</strong>
+                    </Link>
+                    <Link to="/login/" className="button is-light">
+                      Log in
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -72,4 +87,4 @@ const layout: React.FC<layoutProps> = ({ children }) => {
   );
 };
 
-export default layout;
+export default Layout;

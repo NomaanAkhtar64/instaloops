@@ -66,109 +66,111 @@ const Signup: React.FC<SignupProps> = () => {
   return (
     <div className="form-box">
       <div className="form-right">
-        <div className="form-divider"></div>
-        <form
-          className="form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (auth && isValid()) {
-              auth.actions.signup({ username, email, password1, password2 });
-            }
-          }}
-        >
-          <legend className="legend">Signup</legend>
-          <div className="field">
-            <p className="control has-icons-left">
-              <input
-                className="input"
-                type="text"
-                value={username}
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
-                placeholder="Username"
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-user"></i>
-              </span>
-            </p>
-            {errors.username && (
-              <p className="help is-danger">{errors.username}</p>
+        <div className="form-divider box">
+          <form
+            className="form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (auth && isValid()) {
+                auth.actions.signup({ username, email, password1, password2 });
+              }
+            }}
+          >
+            <legend className="legend">Signup</legend>
+            <div className="field">
+              <p className="control has-icons-left">
+                <input
+                  className="input"
+                  type="text"
+                  value={username}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                  }}
+                  placeholder="Username"
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-user"></i>
+                </span>
+              </p>
+              {errors.username && (
+                <p className="help is-danger">{errors.username}</p>
+              )}
+            </div>
+            <div className="field">
+              <p className="control has-icons-left has-icons-right">
+                <input
+                  className="input"
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  placeholder="Email"
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-envelope"></i>
+                </span>
+                <span className="icon is-small is-right">
+                  <i className="fas fa-check"></i>
+                </span>
+                {errors.email && (
+                  <p className="help is-danger">{errors.email}</p>
+                )}
+              </p>
+            </div>
+            <div className="field">
+              <p className="control has-icons-left">
+                <input
+                  className="input"
+                  type="password"
+                  value={password1}
+                  onChange={(e) => {
+                    setPassword1(e.target.value);
+                  }}
+                  placeholder="Password"
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-lock"></i>
+                </span>
+                {errors.password1 && (
+                  <p className="help is-danger">{errors.password1}</p>
+                )}
+              </p>
+            </div>
+            <div className="field">
+              <p className="control has-icons-left">
+                <input
+                  className="input"
+                  type="password"
+                  value={password2}
+                  onChange={(e) => {
+                    setPassword2(e.target.value);
+                  }}
+                  placeholder="Confirm Password"
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-lock"></i>
+                </span>
+                {errors.password2 && (
+                  <p className="help is-danger">{errors.password2}</p>
+                )}
+              </p>
+            </div>
+            {auth?.error.signup.authentication && (
+              <p className="lg err ">{auth.error.signup.authentication}</p>
             )}
-          </div>
-          <div className="field">
-            <p className="control has-icons-left has-icons-right">
-              <input
-                className="input"
-                type="email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-                placeholder="Email"
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-envelope"></i>
-              </span>
-              <span className="icon is-small is-right">
-                <i className="fas fa-check"></i>
-              </span>
-              {errors.email && <p className="help is-danger">{errors.email}</p>}
-            </p>
-          </div>
-          <div className="field">
-            <p className="control has-icons-left">
-              <input
-                className="input"
-                type="password"
-                value={password1}
-                onChange={(e) => {
-                  setPassword1(e.target.value);
-                }}
-                placeholder="Password"
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-lock"></i>
-              </span>
-              {errors.password1 && (
-                <p className="help is-danger">{errors.password1}</p>
-              )}
-            </p>
-          </div>
-          <div className="field">
-            <p className="control has-icons-left">
-              <input
-                className="input"
-                type="password"
-                value={password2}
-                onChange={(e) => {
-                  setPassword2(e.target.value);
-                }}
-                placeholder="Confirm Password"
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-lock"></i>
-              </span>
-              {errors.password2 && (
-                <p className="help is-danger">{errors.password2}</p>
-              )}
-            </p>
-          </div>
-          {auth?.error.signup.authentication && (
-            <p className="lg err ">{auth.error.signup.authentication}</p>
-          )}
-          <div className="field">
-            <p className="control">
-              <button
-                type="submit"
-                className="button sm is-info"
-                style={{ width: "100%" }}
-              >
-                SIGNUP
-              </button>
-            </p>
-          </div>
-          {/* <div className={`${modalActive && 'is-active'} modal`}>
+            <div className="field">
+              <p className="control">
+                <button
+                  type="submit"
+                  className="button sm is-info"
+                  style={{ width: "100%" }}
+                >
+                  SIGNUP
+                </button>
+              </p>
+            </div>
+            {/* <div className={`${modalActive && 'is-active'} modal`}>
             <div className='modal-background'></div>
             <div
               className='modal-content'
@@ -222,22 +224,22 @@ const Signup: React.FC<SignupProps> = () => {
               }}
             ></button>
           </div> */}
-        </form>
-
-        <div className="field">
-          <p className="control">
-            <button
-              type="button"
-              className="button is-instagram"
-              style={{ width: "100%" }}
-            >
-              <span>Signup With Facebook</span>
-              <i className="fab fa-lg fa-facebook"></i>
-              <div style={{ marginRight: "auto" }}></div>
-            </button>
-          </p>
+            <div className="field">
+              <p className="control">
+                <button
+                  type="button"
+                  className="button is-instagram"
+                  style={{ width: "100%" }}
+                >
+                  <span>Signup With Facebook</span>
+                  <i className="fab fa-lg fa-facebook"></i>
+                  <div style={{ marginRight: "auto" }}></div>
+                </button>
+              </p>
+            </div>
+            <Facebook />
+          </form>
         </div>
-        <Facebook />
       </div>
     </div>
   );

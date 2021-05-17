@@ -70,15 +70,32 @@ const Home: React.FC<HomeProps> = () => {
           {niches?.state.hasLoaded ? (
             <>
               <h3 className="title is-6">Niche</h3>
-              {niches.state.data.map((niche, i) => (
-                <label key={i} className="checkbox">
-                  <input type="checkbox" /> {niche.name}
-                </label>
-              ))}
+              <div className="control">
+                {niches.state.data.map((niche, i) => (
+                  <label key={i} className="radio">
+                    <input type="radio" name={niche.name} /> {niche.name}
+                  </label>
+                ))}
+              </div>
             </>
           ) : (
             <Spinner />
           )}
+          <hr />
+          <button
+            type="button"
+            className="button is-small is-primary is-outlined"
+            onClick={() => {
+              let influData = influencers?.state.data.filter(
+                (influencer) =>
+                  influencer.min_budget >= parseInt(minRange) &&
+                  influencer.max_budget <= parseInt(rangeValue)
+              );
+              console.log(influData);
+            }}
+          >
+            Save
+          </button>
         </div>
         <div className="home-divide">
           <div className="search-bar">
@@ -106,6 +123,9 @@ const Home: React.FC<HomeProps> = () => {
                     <div className="influ-about">
                       <h4 className="title is-5">About:</h4>
                       <p>{influencer.about}</p>
+                    </div>
+                    <div className="influ-rating">
+                      <p>{influencer.rating}</p>
                     </div>
                     <hr />
                   </div>

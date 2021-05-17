@@ -71,6 +71,7 @@ const StoreProvider: React.FC = ({ children }) => {
         `${API_URL}/rest-auth/login/`,
         f
       );
+      localStorage['Token'] = res.data.key;
       setAuthToken(res.data.key);
     } catch (err) {
       if (axios.isAxiosError(err)) {
