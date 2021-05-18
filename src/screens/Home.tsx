@@ -70,13 +70,18 @@ const Home: React.FC<HomeProps> = () => {
           {niches?.state.hasLoaded ? (
             <>
               <h3 className="title is-6">Niche</h3>
-              <div className="control">
-                {niches.state.data.map((niche, i) => (
-                  <label key={i} className="radio">
-                    <input type="radio" name={niche.name} /> {niche.name}
-                  </label>
-                ))}
-              </div>
+              {niches.state.data.map((niche, i) => (
+                <label key={i} className="checkbox">
+                  <input
+                    type="checkbox"
+                    value={niche.name}
+                    className="niche-checkbox"
+                    
+                    name="niche"
+                  />{" "}
+                  {niche.name}
+                </label>
+              ))}
             </>
           ) : (
             <Spinner />
@@ -91,7 +96,16 @@ const Home: React.FC<HomeProps> = () => {
                   influencer.min_budget >= parseInt(minRange) &&
                   influencer.max_budget <= parseInt(rangeValue)
               );
-              console.log(influData);
+              // console.log(influData);
+
+              const checkboxes = document.querySelectorAll(
+                'input[name="niche"]:checked'
+              );
+              let niches = [];
+              checkboxes.forEach((checkbox: any) => {
+                niches.push(checkbox.value);
+              });
+              // console.log(niches)
             }}
           >
             Save
@@ -108,7 +122,7 @@ const Home: React.FC<HomeProps> = () => {
             {influencers?.state.hasLoaded ? (
               <div className="influencers-container">
                 {influencers.state.data.map((influencer, i) => (
-                  <div key={i} className="influencer-body">
+                  <div key={i} className="influencer-body box">
                     <div className="influ-images">
                       <div className="influ-banner">
                         <img src={influencer.banner} alt="" />

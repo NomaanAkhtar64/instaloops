@@ -54,6 +54,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <div className="navbar-item">
                 {auth?.state.isAuthenticated ? (
                   <div className="buttons">
+                    <Link to="/settings/" className="button"><i className="fas fa-user"></i></Link>
                     <button
                       type="button"
                       className="button is-danger"

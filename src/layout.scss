@@ -373,6 +373,7 @@ footer {
         }
     }
 }
+
 .influencers-container {
     display: flex;
     flex-direction: column;
@@ -426,7 +427,7 @@ footer {
     .influencer-body {
         width: 49%;
     }
-    
+
     .influ-pic {
         width: 150px;
         height: 150px;
@@ -441,14 +442,23 @@ footer {
 
 .influ-about {
     text-align: left;
+
     .title {
         margin-bottom: 10px !important;
     }
+
     p {
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
-        -webkit-line-clamp: 1; /* number of lines to show */
+        -webkit-line-clamp: 1;
+        /* number of lines to show */
         -webkit-box-orient: vertical;
+    }
+}
+
+@media (min-width: 768px) {
+    .settings-page {
+        padding: 50px;
     }
 }

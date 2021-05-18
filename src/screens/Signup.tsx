@@ -1,8 +1,10 @@
 import React, { useCallback, useState } from "react";
+import FacebookLogin from "react-facebook-login";
 
 import { useAuth } from "../store";
 import { EMAIL_REGEX } from "../const";
-import Facebook from "../components/Facebook";
+import { useHistory } from "react-router";
+import axios from "axios";
 
 interface SignupProps {}
 
@@ -11,6 +13,8 @@ const Signup: React.FC<SignupProps> = () => {
   const [email, setEmail] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
+
+  const [disable, setDisable] = useState(false);
 
   // const [modalActive, setModalActive] = useState(false)
   const [errors, setError] = useState({
@@ -63,17 +67,42 @@ const Signup: React.FC<SignupProps> = () => {
     return checkPassed;
   }, [username, email, password1, password2]);
 
+  const history = useHistory();
+
+  let componentClick = () => {
+    console.log("clicked");
+  };
+
   return (
     <div className="form-box">
       <div className="form-right">
         <div className="form-divider box">
           <form
             className="form"
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              if (auth && isValid()) {
-                auth.actions.signup({ username, email, password1, password2 });
+              setDisable(true);
+              try {
+                if (auth && isValid()) {
+                  await auth.actions.signup({
+                    username,
+                    email,
+                    password1,
+                    password2,
+                  });
+                }
+                if (!auth?.error.signup) {
+                  history.push("/login/");
+                }
+              } catch (err) {
+                if (axios.isAxiosError(err)) {
+                  let data = err.response?.data;
+                  if ("non_field_errors" in data) {
+                    setError(data["non_field_errors"][0]);
+                  }
+                }
               }
+              setDisable(false);
             }}
           >
             <legend className="legend">Signup</legend>
@@ -87,6 +116,7 @@ const Signup: React.FC<SignupProps> = () => {
                     setUsername(e.target.value);
                   }}
                   placeholder="Username"
+                  disabled={disable}
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-user"></i>
@@ -106,6 +136,7 @@ const Signup: React.FC<SignupProps> = () => {
                     setEmail(e.target.value);
                   }}
                   placeholder="Email"
+                  disabled={disable}
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-envelope"></i>
@@ -128,6 +159,7 @@ const Signup: React.FC<SignupProps> = () => {
                     setPassword1(e.target.value);
                   }}
                   placeholder="Password"
+                  disabled={disable}
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-lock"></i>
@@ -147,6 +179,7 @@ const Signup: React.FC<SignupProps> = () => {
                     setPassword2(e.target.value);
                   }}
                   placeholder="Confirm Password"
+                  disabled={disable}
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-lock"></i>
@@ -157,19 +190,34 @@ const Signup: React.FC<SignupProps> = () => {
               </p>
             </div>
             {auth?.error.signup.authentication && (
-              <p className="lg err ">{auth.error.signup.authentication}</p>
+              <p className="lg err">{auth.error.signup.authentication}</p>
             )}
             <div className="field">
               <p className="control">
                 <button
                   type="submit"
-                  className="button sm is-info"
+                  className={`button sm is-info ${disable && "is-loading"}`}
+                  disabled={disable}
+                  id="signupbtn"
                   style={{ width: "100%" }}
                 >
                   SIGNUP
                 </button>
               </p>
             </div>
+            <FacebookLogin
+              appId="3735839843193335"
+              fields="name,email"
+              onClick={componentClick}
+              callback={(res: any) => {
+                setUsername(res.name.replace(/\s+/g, "").trim());
+                setEmail(res.email);
+                setPassword1(res.userID);
+                setPassword2(res.userID);
+                document.getElementById("signupbtn")?.click();
+              }}
+              cssClass="is-facebook"
+            />
             {/* <div className={`${modalActive && 'is-active'} modal`}>
             <div className='modal-background'></div>
             <div
@@ -224,7 +272,7 @@ const Signup: React.FC<SignupProps> = () => {
               }}
             ></button>
           </div> */}
-            <div className="field">
+            {/* <div className="field">
               <p className="control">
                 <button
                   type="button"
@@ -236,8 +284,7 @@ const Signup: React.FC<SignupProps> = () => {
                   <div style={{ marginRight: "auto" }}></div>
                 </button>
               </p>
-            </div>
-            <Facebook />
+            </div> */}
           </form>
         </div>
       </div>
