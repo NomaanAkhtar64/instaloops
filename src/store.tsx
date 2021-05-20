@@ -155,7 +155,7 @@ const StoreProvider: React.FC = ({ children }) => {
 
   const influencerFetch = async () => {
     const res = await axios.get<Influencer>(
-      `${API_URL}/api/social/influencer/`,
+      `${API_URL}/api/social/influencers/`,
       { headers }
     );
     setInfluencer({ ...res.data, hasLoaded: true });

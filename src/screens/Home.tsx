@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import { useInfluencerList, useNiche, useUser } from "../store";
 
@@ -76,7 +77,6 @@ const Home: React.FC<HomeProps> = () => {
                     type="checkbox"
                     value={niche.name}
                     className="niche-checkbox"
-                    
                     name="niche"
                   />{" "}
                   {niche.name}
@@ -123,25 +123,32 @@ const Home: React.FC<HomeProps> = () => {
               <div className="influencers-container">
                 {influencers.state.data.map((influencer, i) => (
                   <div key={i} className="influencer-body box">
-                    <div className="influ-images">
-                      <div className="influ-banner">
-                        <img src={influencer.banner} alt="" />
+                    <Link
+                      to={`/influencer/${influencer.id}`}
+                      style={{ color: "#000", textDecoration: "none" }}
+                    >
+                      <div className="influ-images">
+                        <div className="influ-banner">
+                          <img src={influencer.banner} alt="" />
+                        </div>
+                        <img
+                          className="influ-pic"
+                          src={influencer.pic}
+                          alt=""
+                        />
                       </div>
-                      {/* <div className="influ-pic"> */}
-                      <img className="influ-pic" src={influencer.pic} alt="" />
-                      {/* </div> */}
-                    </div>
-                    <div className="influ-bio">
-                      <p>{influencer.bio}</p>
-                    </div>
-                    <div className="influ-about">
-                      <h4 className="title is-5">About:</h4>
-                      <p>{influencer.about}</p>
-                    </div>
-                    <div className="influ-rating">
-                      <p>{influencer.rating}</p>
-                    </div>
-                    <hr />
+                      <div className="influ-bio">
+                        <p>{influencer.bio}</p>
+                      </div>
+                      <div className="influ-about">
+                        <h4 className="title is-5">About:</h4>
+                        <p>{influencer.about}</p>
+                      </div>
+                      <div className="influ-rating">
+                        <p>{influencer.rating}</p>
+                      </div>
+                      <hr />
+                    </Link>
                   </div>
                 ))}
               </div>
