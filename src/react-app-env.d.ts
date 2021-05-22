@@ -27,7 +27,7 @@ interface SignUpFields {
   password2: string
 }
 interface AuthActions {
-  login: (f: LoginFields) => void
+  login: (f: LoginFields) => Promise<boolean>
   logout: () => void
   signup: (f: SignUpFields) => Promise<void>
 }
@@ -44,6 +44,7 @@ interface User {
   pk: number
   username: string
   email: string
+  status: string
 }
 type UserState = withLoad<User>
 interface UserActions {
@@ -111,8 +112,13 @@ interface InfluencerListState {
   data: Influencer[]
   hasLoaded: boolean
 }
+interface InfluencerListFilterParams {
+  niches: string[]
+  search: string
+}
 interface InfluencerListAction {
-  fetch: () => void
+  list: (params: Partial<InfluencerFilterParams>) => void
+  retrieve: (id: number) => void
 }
 
 interface Store {

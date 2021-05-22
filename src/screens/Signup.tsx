@@ -1,87 +1,96 @@
-import React, { useCallback, useState } from "react";
-import FacebookLogin from "react-facebook-login";
+import React, { useCallback, useState } from 'react'
+import FacebookLogin from 'react-facebook-login'
 
-import { useAuth } from "../store";
-import { EMAIL_REGEX } from "../const";
-import { useHistory } from "react-router";
-import axios from "axios";
+import { useAuth } from '../store'
+import { EMAIL_REGEX } from '../const'
+import { useHistory } from 'react-router'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faUser,
+  faCheck,
+  faEnvelope,
+  faLandmark,
+  faLock,
+} from '@fortawesome/free-solid-svg-icons'
+
+import axios from 'axios'
 
 interface SignupProps {}
 
 const Signup: React.FC<SignupProps> = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password1, setPassword1] = useState("");
-  const [password2, setPassword2] = useState("");
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password1, setPassword1] = useState('')
+  const [password2, setPassword2] = useState('')
 
-  const [disable, setDisable] = useState(false);
+  const [disable, setDisable] = useState(false)
 
   // const [modalActive, setModalActive] = useState(false)
   const [errors, setError] = useState({
-    email: "",
-    password1: "",
-    password2: "",
-    username: "",
-  });
-  const auth = useAuth();
+    email: '',
+    password1: '',
+    password2: '',
+    username: '',
+  })
+  const auth = useAuth()
 
   const isValid = useCallback(() => {
-    let checkPassed = true;
+    let checkPassed = true
     let newError = {
-      email: "",
-      password1: "",
-      password2: "",
-      username: "",
-    };
+      email: '',
+      password1: '',
+      password2: '',
+      username: '',
+    }
     if (!EMAIL_REGEX.test(email)) {
-      newError.email = "Email is invalid";
+      newError.email = 'Email is invalid'
     }
     if (password1.length < 8) {
-      newError.password1 = "Password must not be less than 8 characters long";
-      checkPassed = false;
+      newError.password1 = 'Password must not be less than 8 characters long'
+      checkPassed = false
     }
     if (username.length < 4) {
-      newError.username = "Username must not be less than 4 characters long";
-      checkPassed = false;
+      newError.username = 'Username must not be less than 4 characters long'
+      checkPassed = false
     }
     if (!username) {
-      newError.username = "Username is required";
-      checkPassed = false;
+      newError.username = 'Username is required'
+      checkPassed = false
     }
     if (!email) {
-      newError.email = "Email is required";
-      checkPassed = false;
+      newError.email = 'Email is required'
+      checkPassed = false
     }
     if (!password1) {
-      newError.password1 = "Password is required";
-      checkPassed = false;
+      newError.password1 = 'Password is required'
+      checkPassed = false
     }
     if (!password2) {
-      newError.password2 = "Password Confirmation is required";
-      checkPassed = false;
+      newError.password2 = 'Password Confirmation is required'
+      checkPassed = false
     }
 
     if (!checkPassed) {
-      setError({ ...newError });
+      setError({ ...newError })
     }
-    return checkPassed;
-  }, [username, email, password1, password2]);
+    return checkPassed
+  }, [username, email, password1, password2])
 
-  const history = useHistory();
+  const history = useHistory()
 
   let componentClick = () => {
-    console.log("clicked");
-  };
+    console.log('clicked')
+  }
 
   return (
-    <div className="form-box">
-      <div className="form-right">
-        <div className="form-divider box">
+    <div className='form-box'>
+      <div className='form-right'>
+        <div className='form-divider box'>
           <form
-            className="form"
+            className='form'
             onSubmit={async (e) => {
-              e.preventDefault();
-              setDisable(true);
+              e.preventDefault()
+              setDisable(true)
               try {
                 if (auth && isValid()) {
                   await auth.actions.signup({
@@ -89,134 +98,134 @@ const Signup: React.FC<SignupProps> = () => {
                     email,
                     password1,
                     password2,
-                  });
+                  })
                 }
                 if (!auth?.error.signup) {
-                  history.push("/login/");
+                  history.push('/login/')
                 }
               } catch (err) {
                 if (axios.isAxiosError(err)) {
-                  let data = err.response?.data;
-                  if ("non_field_errors" in data) {
-                    setError(data["non_field_errors"][0]);
+                  let data = err.response?.data
+                  if ('non_field_errors' in data) {
+                    setError(data['non_field_errors'][0])
                   }
                 }
               }
-              setDisable(false);
+              setDisable(false)
             }}
           >
-            <legend className="legend">Signup</legend>
-            <div className="field">
-              <p className="control has-icons-left">
+            <legend className='legend'>Signup</legend>
+            <div className='field'>
+              <p className='control has-icons-left'>
                 <input
-                  className="input"
-                  type="text"
+                  className='input'
+                  type='text'
                   value={username}
                   onChange={(e) => {
-                    setUsername(e.target.value);
+                    setUsername(e.target.value)
                   }}
-                  placeholder="Username"
+                  placeholder='Username'
                   disabled={disable}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-user"></i>
+                <span className='icon is-small is-left'>
+                  <FontAwesomeIcon icon={faUser} />
                 </span>
               </p>
               {errors.username && (
-                <p className="help is-danger">{errors.username}</p>
+                <p className='help is-danger'>{errors.username}</p>
               )}
             </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
+            <div className='field'>
+              <p className='control has-icons-left has-icons-right'>
                 <input
-                  className="input"
-                  type="email"
+                  className='input'
+                  type='email'
                   value={email}
                   onChange={(e) => {
-                    setEmail(e.target.value);
+                    setEmail(e.target.value)
                   }}
-                  placeholder="Email"
+                  placeholder='Email'
                   disabled={disable}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-envelope"></i>
+                <span className='icon is-small is-left'>
+                  <FontAwesomeIcon icon={faEnvelope} />
                 </span>
-                <span className="icon is-small is-right">
-                  <i className="fas fa-check"></i>
+                <span className='icon is-small is-right'>
+                  <FontAwesomeIcon icon={faCheck} />
                 </span>
                 {errors.email && (
-                  <p className="help is-danger">{errors.email}</p>
+                  <p className='help is-danger'>{errors.email}</p>
                 )}
               </p>
             </div>
-            <div className="field">
-              <p className="control has-icons-left">
+            <div className='field'>
+              <p className='control has-icons-left'>
                 <input
-                  className="input"
-                  type="password"
+                  className='input'
+                  type='password'
                   value={password1}
                   onChange={(e) => {
-                    setPassword1(e.target.value);
+                    setPassword1(e.target.value)
                   }}
-                  placeholder="Password"
+                  placeholder='Password'
                   disabled={disable}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-lock"></i>
+                <span className='icon is-small is-left'>
+                  <FontAwesomeIcon icon={faLock} />
                 </span>
                 {errors.password1 && (
-                  <p className="help is-danger">{errors.password1}</p>
+                  <p className='help is-danger'>{errors.password1}</p>
                 )}
               </p>
             </div>
-            <div className="field">
-              <p className="control has-icons-left">
+            <div className='field'>
+              <p className='control has-icons-left'>
                 <input
-                  className="input"
-                  type="password"
+                  className='input'
+                  type='password'
                   value={password2}
                   onChange={(e) => {
-                    setPassword2(e.target.value);
+                    setPassword2(e.target.value)
                   }}
-                  placeholder="Confirm Password"
+                  placeholder='Confirm Password'
                   disabled={disable}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-lock"></i>
+                <span className='icon is-small is-left'>
+                  <FontAwesomeIcon icon={faLock} />
                 </span>
                 {errors.password2 && (
-                  <p className="help is-danger">{errors.password2}</p>
+                  <p className='help is-danger'>{errors.password2}</p>
                 )}
               </p>
             </div>
             {auth?.error.signup.authentication && (
-              <p className="lg err">{auth.error.signup.authentication}</p>
+              <p className='lg err'>{auth.error.signup.authentication}</p>
             )}
-            <div className="field">
-              <p className="control">
+            <div className='field'>
+              <p className='control'>
                 <button
-                  type="submit"
-                  className={`button sm is-info ${disable && "is-loading"}`}
+                  type='submit'
+                  className={`button sm is-info ${disable && 'is-loading'}`}
                   disabled={disable}
-                  id="signupbtn"
-                  style={{ width: "100%" }}
+                  id='signupbtn'
+                  style={{ width: '100%' }}
                 >
                   SIGNUP
                 </button>
               </p>
             </div>
             <FacebookLogin
-              appId="3735839843193335"
-              fields="name,email"
+              appId='3735839843193335'
+              fields='name,email'
               onClick={componentClick}
               callback={(res: any) => {
-                setUsername(res.name.replace(/\s+/g, "").trim());
-                setEmail(res.email);
-                setPassword1(res.userID);
-                setPassword2(res.userID);
-                document.getElementById("signupbtn")?.click();
+                setUsername(res.name.replace(/\s+/g, '').trim())
+                setEmail(res.email)
+                setPassword1(res.userID)
+                setPassword2(res.userID)
+                document.getElementById('signupbtn')?.click()
               }}
-              cssClass="is-facebook"
+              cssClass='is-facebook'
             />
             {/* <div className={`${modalActive && 'is-active'} modal`}>
             <div className='modal-background'></div>
@@ -289,7 +298,7 @@ const Signup: React.FC<SignupProps> = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Signup;
+export default Signup
