@@ -1,66 +1,49 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { RouteComponentProps } from "react-router";
-import Spinner from "../components/Spinner";
-import { API_URL } from "../const";
-import { useInfluencer, useInfluencerList } from "../store";
+import React, { useEffect } from 'react'
+import { RouteComponentProps } from 'react-router'
+import Spinner from '../components/Spinner'
+import { useInfluencerDetail } from '../store'
 
 interface MatchParams {
-  id: string;
+  id: string
 }
 
 interface InfluencerDetailProps extends RouteComponentProps<MatchParams> {}
 
 const InfluencerDetail: React.FC<InfluencerDetailProps> = ({ match }) => {
-  // const influncer = useInfluencerList();
-  const [influencer, setInfluencer] = useState<Influencer | null>(null);
-  console.log(match.params.id);
+  const id = match.params.id
+  const influencer = useInfluencerDetail()
 
   useEffect(() => {
-    // influncer?.actions.fetch();
-    axios
-      .get(`${API_URL}/api/social/influencers/${match.params.id}`)
-      .then((res) => {
-        setInfluencer(res.data);
-        console.log(typeof(res.data));
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    influencer.actions.fetch(parseInt(id))
+  }, [id])
 
-  return (
-    <>
-      {/* {influncer?.state.hasLoaded ? ( */}
-      <div className="influencer-detail">
-        <div className="ID-body box">
-          <div className="ID-images">
-            <div className="ID-banner">
-              <img src={influencer?.banner} alt="" />
+  if (influencer.state.hasLoaded) {
+    return (
+      <div className='influencer-detail'>
+        <div className='ID-body box'>
+          <div className='ID-images'>
+            <div className='ID-banner'>
+              <img src={influencer.state.data.banner} alt='' />
             </div>
-            <img
-              className="ID-pic"
-              src={influencer?.pic}
-              alt=""
-            />
+            <img className='ID-pic' src={influencer.state.data.pic} alt='' />
           </div>
-          <div className="ID-content">
-              <div className="influ-bio">
-              <p>{influencer?.bio}</p>
+          <div className='ID-content'>
+            <div className='influ-bio'>
+              <p>{influencer.state.data.bio}</p>
             </div>
-            <div className="ID-about">
-              <h4 className="title is-5">About:</h4>
-              <p>{influencer?.about}</p>
+            <div className='ID-about'>
+              <h4 className='title is-5'>About:</h4>
+              <p>{influencer.state.data.about}</p>
             </div>
-            <div className="ID-rating">
-              <p>{influencer?.rating}</p>
+            <div className='ID-rating'>
+              <p>{influencer.state.data.rating}</p>
             </div>
-            </div>
+          </div>
         </div>
       </div>
-      {/* ) : (
-        <Spinner /> */}
-      {/* )} */}
-    </>
-  );
-};
+    )
+  }
+  return <Spinner />
+}
 
-export default InfluencerDetail;
+export default InfluencerDetail

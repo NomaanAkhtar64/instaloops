@@ -17,7 +17,16 @@ const df = {
     hasLoaded: false,
     status: 'uncreated',
   },
-  list: {
+  influencerList: {
+    data: [],
+    hasLoaded: false,
+    page_count: 1,
+  },
+  bannerList: {
+    data: [],
+    hasLoaded: false,
+  },
+  nicheList: {
     data: [],
     hasLoaded: false,
   },
@@ -26,11 +35,6 @@ const df = {
     id: 0,
     pic: '',
     user: 0,
-  },
-  niche: {
-    hasLoaded: false,
-    id: 0,
-    name: '',
   },
   influencer: {
     hasLoaded: false,
@@ -47,7 +51,6 @@ const df = {
     banner: '',
     reviews: [],
   },
-  influencers: {},
 }
 // @ts-ignore
 const storeContext = React.createContext<Store>(null)
@@ -59,13 +62,18 @@ const StoreProvider: React.FC = ({ children }) => {
   const history = useHistory()
 
   const [user, setUser] = useState<UserState>(df.user)
-  const [banner, setBanner] = useState<BannerState>(df.list)
+  const [banner, setBanner] = useState<BannerState>(df.bannerList)
   const [consumer, setConsumer] = useState<ConsumerState>(df.consumer)
-  const [niche, setNiche] = useState<NicheState>(df.list)
-  const [influencer, setInfluencer] = useState<InfluencerState>(df.influencer)
-  const [influencerList, setInfluencerList] = useState<InfluencerListState>(
-    df.list
+  const [niche, setNiche] = useState<NicheState>(df.nicheList)
+  const [influencerAuth, setInfluencerAuth] = useState<InfluencerAuthState>(
+    df.influencer
   )
+  const [influencerList, setInfluencerList] = useState<InfluencerListState>(
+    df.influencerList
+  )
+  const [influencerDetail, setInfluencerDetail] =
+    useState<InfluencerDetailState>({ data: df.influencer, hasLoaded: false })
+
   const headers = useMemo(
     () => ({
       Authorization: `Token ${authToken}`,
@@ -79,7 +87,7 @@ const StoreProvider: React.FC = ({ children }) => {
           `${API_URL}/rest-auth/login/`,
           f
         )
-        localStorage['Token'] = res.data.key
+        localStorage['token'] = res.data.key
         setAuthToken(res.data.key)
         history.push('/')
         return true
@@ -170,35 +178,42 @@ const StoreProvider: React.FC = ({ children }) => {
     setNiche({ data: res.data, hasLoaded: true })
   }, [])
 
-  const influencerFetch = useCallback(async () => {
+  const influencerAuthFetch = useCallback(async () => {
     const res = await axios.get<Influencer>(
       `${API_URL}/api/social/influencer/`,
       { headers }
     )
-    setInfluencer({ ...res.data, hasLoaded: true })
+    setInfluencerAuth({ ...res.data, hasLoaded: true })
   }, [headers])
 
   const influencerListFetch = useCallback(
     async (params: InfluencerListFilterParams) => {
-      const res = await axios.get<Influencer[]>(
+      setInfluencerList(df.influencerList)
+      const res = await axios.get<{
+        influencers: Influencer[]
+        page_count: number
+      }>(
         `${API_URL}/api/social/influencers/?${
           params.niches
             ? `niche=${params.niches.map((n) => encodeURI(n)).join(',')}`
             : ''
         }${params.search ? `search=${encodeURI(params.search)}` : ''}`
       )
-      setInfluencerList({ data: res.data, hasLoaded: true })
+      setInfluencerList({
+        data: res.data.influencers,
+        hasLoaded: true,
+        page_count: res.data.page_count,
+      })
     },
     []
   )
 
-  const influencerRetrieveFetch = useCallback(async (id: number) => {
+  const influencerDetailFetch = useCallback(async (id: number) => {
     const res = await axios.get<Influencer>(
       `${API_URL}/api/social/influencers/${id}/`
     )
-    setInfluencerList({ data: [res.data], hasLoaded: true })
+    setInfluencerDetail({ data: res.data, hasLoaded: true })
   }, [])
-
   return (
     <storeContext.Provider
       value={{
@@ -224,7 +239,7 @@ const StoreProvider: React.FC = ({ children }) => {
           state: banner,
           actions: { fetch: bannerFetch },
         },
-        consumer: {
+        consumerAuth: {
           state: consumer,
           actions: { fetch: consumerFetch },
         },
@@ -232,15 +247,20 @@ const StoreProvider: React.FC = ({ children }) => {
           state: niche,
           actions: { fetch: nicheFetch },
         },
-        influencer: {
-          state: influencer,
-          actions: { fetch: influencerFetch },
+        influencerAuth: {
+          state: influencerAuth,
+          actions: { fetch: influencerAuthFetch },
         },
-        influencers: {
+        influencerList: {
           state: influencerList,
           actions: {
-            list: influencerListFetch,
-            retrieve: influencerRetrieveFetch,
+            fetch: influencerListFetch,
+          },
+        },
+        influencerDetail: {
+          state: influencerDetail,
+          actions: {
+            fetch: influencerDetailFetch,
           },
         },
       }}
@@ -250,21 +270,23 @@ const StoreProvider: React.FC = ({ children }) => {
   )
 }
 
-const useAuth = () => useContext(storeContext)?.auth
-const useUser = () => useContext(storeContext)?.user
-const useBanners = () => useContext(storeContext)?.banner
-const useConsumer = () => useContext(storeContext)?.consumer
-const useNiche = () => useContext(storeContext)?.niche
-const useInfluencer = () => useContext(storeContext)?.influencer
-const useInfluencerList = () => useContext(storeContext)?.influencers
+const useAuth = () => useContext(storeContext).auth
+const useUser = () => useContext(storeContext).user
+const useBanners = () => useContext(storeContext).banner
+const useNiche = () => useContext(storeContext).niche
+const useConsumerAuth = () => useContext(storeContext).consumerAuth
+const useInfluencerAuth = () => useContext(storeContext).influencerAuth
+const useInfluencerList = () => useContext(storeContext).influencerList
+const useInfluencerDetail = () => useContext(storeContext).influencerDetail
 
 export {
   StoreProvider,
   useAuth,
   useBanners,
-  useConsumer,
+  useConsumerAuth,
   useNiche,
   useUser,
-  useInfluencer,
+  useInfluencerAuth,
   useInfluencerList,
+  useInfluencerDetail,
 }

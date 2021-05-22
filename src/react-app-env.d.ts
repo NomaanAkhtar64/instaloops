@@ -103,13 +103,14 @@ interface Influencer {
   review_count: number
   reviews: Reviews[]
 }
-type InfluencerState = withLoad<Influencer>
-interface InfluencerActions {
+type InfluencerAuthState = withLoad<Influencer>
+interface InfluencerAuthActions {
   fetch: () => {}
 }
 
 interface InfluencerListState {
   data: Influencer[]
+  page_count: number
   hasLoaded: boolean
 }
 interface InfluencerListFilterParams {
@@ -117,19 +118,28 @@ interface InfluencerListFilterParams {
   search: string
 }
 interface InfluencerListAction {
-  list: (params: Partial<InfluencerFilterParams>) => void
-  retrieve: (id: number) => void
+  fetch: (params: Partial<InfluencerFilterParams>) => void
+}
+
+interface InfluencerDetailState {
+  data: Influencer
+  hasLoaded: boolean
+}
+interface InfluencerDetailAction {
+  fetch: (id: number) => void
 }
 
 interface Store {
   auth: StoreItemWithError<AuthState, AuthActions, AuthError>
   user: StoreItem<UserState, UserActions>
   banner: StoreItem<BannerState, BannerActions>
-  consumer: StoreItem<ConsumerState, ConsumerActions>
   niche: StoreItem<NicheState, NicheActions>
-  influencer: StoreItem<InfluencerState, InfluencerActions>
-  influencers: StoreItem<InfluencerListState, InfluencerListAction>
+  consumerAuth: StoreItem<ConsumerState, ConsumerActions>
+  influencerAuth: StoreItem<InfluencerAuthState, InfluencerAuthActions>
+  influencerList: StoreItem<InfluencerListState, InfluencerListAction>
+  influencerDetail: StoreItem<InfluencerDetailState, InfluencerDetailAction>
 }
+
 type FrontendFieldError<T> = {
   [property in keyof T]: string
 }

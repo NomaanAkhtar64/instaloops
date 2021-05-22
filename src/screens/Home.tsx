@@ -25,7 +25,7 @@ const Home: React.FC<HomeProps> = () => {
   }, [])
 
   useEffect(() => {
-    influencers.actions.list({ search })
+    influencers.actions.fetch({ search })
   }, [search])
 
   return (
