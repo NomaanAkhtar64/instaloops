@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Spinner from '../components/Spinner'
+import { API_URL } from '../const'
 import { useInfluencerList, useNiche, useUser } from '../store'
 
 interface HomeProps {}
@@ -149,11 +150,11 @@ const Home: React.FC<HomeProps> = () => {
                     >
                       <div className='influ-images'>
                         <div className='influ-banner'>
-                          <img src={influencer.banner} alt='' />
+                          <img src={`${API_URL}${influencer.banner}`} alt='' />
                         </div>
                         <img
                           className='influ-pic'
-                          src={influencer.pic}
+                          src={`${API_URL}${influencer.pic}`}
                           alt=''
                         />
                       </div>

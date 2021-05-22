@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { RouteComponentProps } from 'react-router'
 import Spinner from '../components/Spinner'
+import { API_URL } from '../const'
 import { useInfluencerDetail } from '../store'
 
 interface MatchParams {
@@ -23,9 +24,9 @@ const InfluencerDetail: React.FC<InfluencerDetailProps> = ({ match }) => {
         <div className='ID-body box'>
           <div className='ID-images'>
             <div className='ID-banner'>
-              <img src={influencer.state.data.banner} alt='' />
+              <img src={`${API_URL}${influencer.state.data.banner}`} alt='' />
             </div>
-            <img className='ID-pic' src={influencer.state.data.pic} alt='' />
+            <img className='ID-pic' src={`${API_URL}${influencer.state.data.pic}`} alt='' />
           </div>
           <div className='ID-content'>
             <div className='influ-bio'>

@@ -1,42 +1,44 @@
-import React, { useEffect } from 'react'
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
-import Spinner from './components/Spinner'
-import Layout from './layout'
-import Error404 from './screens/Error404'
-import Home from './screens/Home'
-import InfluencerDetail from './screens/InfluencerDetail'
-import Login from './screens/Login'
-import Settings from './screens/Settings'
-import Signup from './screens/Signup'
-import { useAuth, useUser } from './store'
+import React, { useEffect } from "react";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import Spinner from "./components/Spinner";
+import Layout from "./layout";
+import Chat from "./screens/Chat";
+import Error404 from "./screens/Error404";
+import Home from "./screens/Home";
+import InfluencerDetail from "./screens/InfluencerDetail";
+import Login from "./screens/Login";
+import Settings from "./screens/Settings";
+import Signup from "./screens/Signup";
+import { useAuth, useUser } from "./store";
 
 function App() {
-  const auth = useAuth()
-  const user = useUser()
+  const auth = useAuth();
+  const user = useUser();
   useEffect(() => {
     if (auth.state.isAuthenticated) {
-      user.actions.fetch()
+      user.actions.fetch();
     }
-  }, [auth.state.isAuthenticated])
+  }, [auth.state.isAuthenticated]);
   const routes = (
     <Switch>
-      <Route exact path='/' component={Home} />
-      <Route exact path='/influencer/:id' component={InfluencerDetail} />
+      <Route exact path="/" component={Home} />
+      <Route exact path="/influencer/:id" component={InfluencerDetail} />
+      <Route exact path="/chat/" component={Chat} />
       {auth.state.isAuthenticated ? (
-        <Route exact path='/settings/' component={Settings} />
+        <Route exact path="/settings/" component={Settings} />
       ) : (
         <>
-          <Route exact path='/login/' component={Login} />
-          <Route exact path='/signup/' component={Signup} />
+          <Route exact path="/login/" component={Login} />
+          <Route exact path="/signup/" component={Signup} />
         </>
       )}
 
-      <Route exact path='/404/' component={Error404} />
-      <Redirect path='*' to='/404/' />
+      <Route exact path="/404/" component={Error404} />
+      <Redirect path="*" to="/404/" />
     </Switch>
-  )
+  );
   return (
-    <div className='App'>
+    <div className="App">
       <BrowserRouter>
         <Layout>
           {auth.state.isAuthenticated ? (
@@ -51,7 +53,7 @@ function App() {
         </Layout>
       </BrowserRouter>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
