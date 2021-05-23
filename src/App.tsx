@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Spinner from "./components/Spinner";
 import Layout from "./layout";
-import Chat from "./screens/Chat";
+import DirectChat from "./screens/DirectChat";
 import Error404 from "./screens/Error404";
 import Home from "./screens/Home";
 import InfluencerDetail from "./screens/InfluencerDetail";
@@ -19,13 +19,16 @@ function App() {
       user.actions.fetch();
     }
   }, [auth.state.isAuthenticated]);
+  
   const routes = (
     <Switch>
       <Route exact path="/" component={Home} />
       <Route exact path="/influencer/:id" component={InfluencerDetail} />
-      <Route exact path="/chat/" component={Chat} />
       {auth.state.isAuthenticated ? (
+        <>
         <Route exact path="/settings/" component={Settings} />
+        <Route exact path="/direct/" component={DirectChat} />
+        </>
       ) : (
         <>
           <Route exact path="/login/" component={Login} />

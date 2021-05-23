@@ -1,6 +1,5 @@
 import axios from 'axios'
 import React, { useCallback, useContext, useMemo, useState } from 'react'
-import { useHistory } from 'react-router'
 import { API_URL } from './const'
 import { loadCache } from './utils'
 
@@ -59,8 +58,6 @@ const StoreProvider: React.FC = ({ children }) => {
   const [authToken, setAuthToken] = useState<string | null>(df.authToken)
   const [authError, setAuthError] = useState<AuthError>(df.authError)
 
-  const history = useHistory()
-
   const [user, setUser] = useState<UserState>(df.user)
   const [banner, setBanner] = useState<BannerState>(df.bannerList)
   const [consumer, setConsumer] = useState<ConsumerState>(df.consumer)
@@ -89,7 +86,6 @@ const StoreProvider: React.FC = ({ children }) => {
         )
         localStorage['token'] = res.data.key
         setAuthToken(res.data.key)
-        history.push('/')
         return true
       } catch (err) {
         if (axios.isAxiosError(err)) {
@@ -116,7 +112,7 @@ const StoreProvider: React.FC = ({ children }) => {
         return false
       }
     },
-    [authError, history]
+    [authError]
   )
 
   const authSignup = useCallback(
@@ -124,7 +120,7 @@ const StoreProvider: React.FC = ({ children }) => {
       try {
         await axios
           .post(`${API_URL}/rest-auth/registration/`, f)
-          .then(() => history.push('/login/'))
+          
       } catch (err) {
         if (axios.isAxiosError(err)) {
           if (
@@ -142,7 +138,7 @@ const StoreProvider: React.FC = ({ children }) => {
       }
       return
     },
-    [authError, history]
+    [authError]
   )
 
   const authLogout = useCallback(async () => {
