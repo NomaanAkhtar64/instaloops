@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Spinner from "./components/Spinner";
 import Layout from "./layout";
-import DirectChat from "./screens/DirectChat";
+import ChatRoom from "./screens/ChatRoom";
 import Error404 from "./screens/Error404";
 import Home from "./screens/Home";
 import InfluencerDetail from "./screens/InfluencerDetail";
@@ -27,7 +27,7 @@ function App() {
       {auth.state.isAuthenticated ? (
         <>
         <Route exact path="/settings/" component={Settings} />
-        <Route exact path="/direct/" component={DirectChat} />
+        <Route exact path="/direct/" component={ChatRoom} />
         </>
       ) : (
         <>
