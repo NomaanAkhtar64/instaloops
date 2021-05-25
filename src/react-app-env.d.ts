@@ -82,16 +82,24 @@ interface NicheActions {
 
 interface Reviews {
   id: number
-  consumer: number | null
+  consumer: {
+    id: number
+    user: number
+    pic: string
+  }
+  consumer_username: string
   influencer: number | null
   title: string
   text: string
   is_public: boolean
+  date: string
 }
 
 interface Influencer {
   id: number
   user: number
+  username: string
+  email: string
   min_budget: number
   max_budget: number
   niche: string
@@ -102,6 +110,7 @@ interface Influencer {
   rating: number
   review_count: number
   reviews: Reviews[]
+  insta_username: string
 }
 type InfluencerAuthState = withLoad<Influencer>
 interface InfluencerAuthActions {
@@ -114,7 +123,7 @@ interface InfluencerListState {
   hasLoaded: boolean
 }
 interface InfluencerListFilterParams {
-  niches: string[]
+  niche: string
   search: string
 }
 interface InfluencerListAction {
@@ -143,3 +152,4 @@ interface Store {
 type FrontendFieldError<T> = {
   [property in keyof T]: string
 }
+

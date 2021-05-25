@@ -6,6 +6,7 @@ import { faEnvelope, faCheck, faLock } from '@fortawesome/free-solid-svg-icons'
 
 import { useAuth } from '../store'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 interface LoginProps {}
 
@@ -50,7 +51,7 @@ const Login: React.FC<LoginProps> = () => {
             <div className='field'>
               <p className='control has-icons-left has-icons-right'>
                 <input
-                  className='input {% if login_failed %}is-danger{% endif %}'
+                  className='input'
                   name='auth_email'
                   value={email}
                   onChange={(e) => {
@@ -71,7 +72,7 @@ const Login: React.FC<LoginProps> = () => {
             <div className='field'>
               <p className='control has-icons-left'>
                 <input
-                  className='input {% if login_failed %}is-danger{% endif %}'
+                  className='input'
                   type='password'
                   value={password}
                   onChange={(e) => {
@@ -89,6 +90,9 @@ const Login: React.FC<LoginProps> = () => {
             {auth.error.login.authentication && (
               <p className='lg err'>{auth.error.login.authentication}</p>
             )}
+            <div className="reset-password-btn">
+              <Link to="/reset-password/">Forgot password?</Link>
+            </div>
             <div className='field'>
               <p className='control'>
                 <button

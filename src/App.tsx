@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter,
+  Redirect,
+  Route,
+  Router,
+  Switch,
+} from "react-router-dom";
 import Spinner from "./components/Spinner";
 import Layout from "./layout";
 import ChatRoom from "./screens/ChatRoom";
@@ -7,6 +13,8 @@ import Error404 from "./screens/Error404";
 import Home from "./screens/Home";
 import InfluencerDetail from "./screens/InfluencerDetail";
 import Login from "./screens/Login";
+import ResetPassword from "./screens/ResetPassword";
+import ResetPasswordConfirm from "./screens/ResetPasswordConfirm";
 import Settings from "./screens/Settings";
 import Signup from "./screens/Signup";
 import { useAuth, useUser } from "./store";
@@ -19,20 +27,26 @@ function App() {
       user.actions.fetch();
     }
   }, [auth.state.isAuthenticated]);
-  
+
   const routes = (
     <Switch>
       <Route exact path="/" component={Home} />
       <Route exact path="/influencer/:id" component={InfluencerDetail} />
       {auth.state.isAuthenticated ? (
         <>
-        <Route exact path="/settings/" component={Settings} />
-        <Route exact path="/direct/" component={ChatRoom} />
+          <Route exact path="/settings/" component={Settings} />
+          <Route exact path="/direct/" component={ChatRoom} />
         </>
       ) : (
         <>
           <Route exact path="/login/" component={Login} />
           <Route exact path="/signup/" component={Signup} />
+          <Route exact path="/reset-password/" component={ResetPassword} />
+          <Route
+            exact
+            path="/reset/password/confirm/:token/"
+            component={ResetPasswordConfirm}
+          />
         </>
       )}
 
