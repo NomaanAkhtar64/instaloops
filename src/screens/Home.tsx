@@ -179,7 +179,11 @@ const Home: React.FC<HomeProps> = () => {
                       to={`/influencer/${influencer.id}`}
                       style={{ color: "#000", textDecoration: "none" }}
                     >
-                      <div className="title">{influencer.username}</div>
+                      <div className="title-head">
+                        <div className="title">{influencer.username}</div>
+                      <small className="button is-light">{influencer.niche}</small>
+                      </div>
+                      
                       <div className="influ-images">
                         <div className="influ-banner">
                           <img src={`${API_URL}${influencer.banner}`} alt="" />

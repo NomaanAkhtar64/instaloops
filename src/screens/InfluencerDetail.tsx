@@ -44,11 +44,11 @@ const InfluencerDetail: React.FC<InfluencerDetailProps> = ({ match }) => {
           </div>
           <div className="ID-content">
             {/* <MDBContainer>
-              <MDBRating iconRegular />
+              <MDBRating />
             </MDBContainer> */}
-            {/* <div className="ID-rating">
+            <div className="ID-rating">
               <p>{influencer.state.data.rating}</p>
-            </div> */}
+            </div>
 
             <div className="profile-content">
               <div className="left">
@@ -194,10 +194,13 @@ const InfluencerDetail: React.FC<InfluencerDetailProps> = ({ match }) => {
               </div>
             </div>
             <hr />
-            <div className="title is-5" style={{ marginBottom: "4px" }}>
-              Reviews
-            </div>
+            {influencer.state.data.reviews.length > 0 && (
+              <div className="title is-5" style={{ marginBottom: "4px" }}>
+                Reviews
+              </div>
+            )}
             <br />
+
             {influencer.state.data.reviews.map((review, i) => (
               <article className="media">
                 <figure className="media-left">

@@ -448,6 +448,15 @@ footer {
     }
 }
 
+.title-head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .title {
+        margin: 2px !important;
+    }
+}
+
 .influ-about {
     text-align: left;
 
@@ -546,10 +555,6 @@ footer {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-
-.title {
-    margin: 2px !important;
 }
 
 .left {
