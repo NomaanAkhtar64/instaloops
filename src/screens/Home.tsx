@@ -1,7 +1,9 @@
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ReactStars from "react-rating-stars-component";
+
 import Spinner from "../components/Spinner";
 import { API_URL } from "../const";
 import { useInfluencerList, useNiche, useUser } from "../store";
@@ -181,9 +183,11 @@ const Home: React.FC<HomeProps> = () => {
                     >
                       <div className="title-head">
                         <div className="title">{influencer.username}</div>
-                      <small className="button is-light">{influencer.niche}</small>
+                        <small className="button is-light">
+                          {influencer.niche}
+                        </small>
                       </div>
-                      
+
                       <div className="influ-images">
                         <div className="influ-banner">
                           <img src={`${API_URL}${influencer.banner}`} alt="" />
@@ -198,13 +202,29 @@ const Home: React.FC<HomeProps> = () => {
                       <div className="influ-bio">
                         <p>{influencer.bio}</p>
                       </div>
+                      <div className="influ-budget">
+                        <p className="button is-light">
+                          Budget: {influencer.min_budget}-
+                          {influencer.max_budget}
+                        </p>
+                      </div>
                       <div className="influ-about">
                         <h4 className="title is-5">About:</h4>
                         <p>{influencer.about}</p>
                       </div>
+                      <br />
                       <div className="influ-rating">
-                        <p>{influencer.rating}</p>
+                        <ReactStars
+                        count="5"
+                        size={24}
+                        activeColor="#ffd700"
+                        value={influencer.rating}
+                        edit={false}
+                      />
+                      <span>({influencer.review_count})</span>
+                      
                       </div>
+                      
                       <hr />
                     </Link>
                   </div>
