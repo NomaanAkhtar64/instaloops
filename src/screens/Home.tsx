@@ -177,44 +177,44 @@ const Home: React.FC<HomeProps> = () => {
               <div className="influencers-container">
                 {influencers.state.data.map((influencer, i) => (
                   <div key={i} className="influencer-body box">
-                    <Link
-                      to={`/influencer/${influencer.id}`}
-                      style={{ color: "#000", textDecoration: "none" }}
-                    >
-                      <div className="title-head">
+                    <div className="title-head">
+                      <Link
+                        to={`/influencer/${influencer.id}`}
+                        style={{ color: "#000", textDecoration: "none" }}
+                      >
                         <div className="title">{influencer.username}</div>
-                        <small className="button is-light">
-                          {influencer.niche}
-                        </small>
-                      </div>
+                      </Link>
+                      <small className="button is-light">
+                        {influencer.niche}
+                      </small>
+                    </div>
 
-                      <div className="influ-images">
-                        <div className="influ-banner">
-                          <img src={`${API_URL}${influencer.banner}`} alt="" />
-                        </div>
-                        <img
-                          className="influ-pic"
-                          src={`${API_URL}${influencer.pic}`}
-                          alt=""
-                        />
+                    <div className="influ-images">
+                      <div className="influ-banner">
+                        <img src={`${API_URL}${influencer.banner}`} alt="" />
                       </div>
+                      <img
+                        className="influ-pic"
+                        src={`${API_URL}${influencer.pic}`}
+                        alt=""
+                      />
+                    </div>
 
-                      <div className="influ-bio">
-                        <p>{influencer.bio}</p>
-                      </div>
-                      <div className="influ-budget">
-                        <p className="button is-light">
-                          Budget: {influencer.min_budget}-
-                          {influencer.max_budget}
-                        </p>
-                      </div>
-                      <div className="influ-about">
-                        <h4 className="title is-5">About:</h4>
-                        <p>{influencer.about}</p>
-                      </div>
-                      <br />
-                      <div className="influ-rating">
-                        <ReactStars
+                    <div className="influ-bio">
+                      <p>{influencer.bio}</p>
+                    </div>
+                    <div className="influ-budget">
+                      <p className="button is-light">
+                        Budget: {influencer.min_budget}-{influencer.max_budget}
+                      </p>
+                    </div>
+                    <div className="influ-about">
+                      <h4 className="title is-5">About:</h4>
+                      <p>{influencer.about}</p>
+                    </div>
+                    <br />
+                    <div className="influ-rating">
+                      <ReactStars
                         count="5"
                         size={24}
                         activeColor="#ffd700"
@@ -222,11 +222,9 @@ const Home: React.FC<HomeProps> = () => {
                         edit={false}
                       />
                       <span>({influencer.review_count})</span>
-                      
-                      </div>
-                      
-                      <hr />
-                    </Link>
+                    </div>
+
+                    <hr />
                   </div>
                 ))}
               </div>
